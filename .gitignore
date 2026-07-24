@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Environment files
+**/.env
+
+# Node
+frontend/node_modules
+
+# Laravel
+backend/vendor
+backend/storage/*.key
+
+# Logs
+*.log
