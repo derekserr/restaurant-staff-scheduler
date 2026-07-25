@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Shift extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'shift_date',
+        'start_time',
+        'end_time',
+        'role_id',
+        'staff_member_id',
+    ];
     
     public function role(): BelongsTo
     {
