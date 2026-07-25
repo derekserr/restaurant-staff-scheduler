@@ -10,8 +10,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 class StaffMember extends Model
+
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'phone_number',
+        'role_id',
+    ];
 
     public function role(): BelongsTo
     {
