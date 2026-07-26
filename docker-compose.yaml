@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:17
+    container_name: restaurant-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: restaurant_scheduler
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d restaurant_scheduler"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: restaurant-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - ./backend/.env
+
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: restaurant_scheduler
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+
+    command: >
+      sh -c "
+      php artisan migrate --seed --force &&
+      php artisan serve --host=0.0.0.0 --port=8000
+      "
+
+volumes:
+  postgres-data:
