@@ -30,3 +30,9 @@ export type StaffMember = {
     name: string;
   };
 };
+
+export type CreateStaffRequest = {
+  name: string;
+  phone_number: string;
+  role_id: number;
+};

@@ -1,3 +1,5 @@
+import type { CreateStaffRequest } from "./components/types";
+
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
 export async function getStaff() {
@@ -10,7 +12,7 @@ export async function getStaff() {
   return response.json();
 }
 
-export async function createStaff(payload) {
+export async function createStaff(payload: CreateStaffRequest) {
   const response = await fetch(`${API_BASE_URL}/staff`, {
     method: "POST",
     headers: {
