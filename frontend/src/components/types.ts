@@ -36,3 +36,10 @@ export type CreateStaffRequest = {
   phone_number: string;
   role_id: number;
 };
+
+export type CreateShiftRequest = {
+  shift_date: string;
+  start_time: string;
+  end_time: string;
+  role_id: number;
+};

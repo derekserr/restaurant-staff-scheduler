@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { createShift } from "../api"
 import type { Shift, Role } from "./types";
 
 type ShiftFormProps = {
@@ -38,23 +38,9 @@ function ShiftForm({ roles, onShiftCreated }: ShiftFormProps) {
     setSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/shifts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message ?? "Could not create shift.");
-      }
-
-      onShiftCreated(data);
-
+      const newShift = await createShift(form);
+      onShiftCreated(newShift);
+      
       setForm({
         shift_date: "",
         start_time: "",
