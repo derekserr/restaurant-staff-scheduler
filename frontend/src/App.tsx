@@ -93,7 +93,9 @@ function App() {
         {error && <p className="error">{error}</p>}
 
         {loading && <p>Loading staff...</p>}
-        <StaffList staff={staff} onStaffDeleted={handleStaffDeleted}/>
+        <StaffList 
+          staff={staff} 
+          onStaffDeleted={handleStaffDeleted}/>
       </section>
 
       <section className="card">
@@ -105,7 +107,11 @@ function App() {
         />
       </section>
 
-      <ShiftList shifts={shifts} staff={staff} onShiftAssigned={handleShiftAssignment} onShiftDeleted={handleShiftDeleted}/>
+      <ShiftList 
+        shifts={shifts} 
+        staff={staff} 
+        onShiftAssigned={handleShiftAssignment} 
+        onShiftDeleted={handleShiftDeleted}/>
     </main>
   );
 }

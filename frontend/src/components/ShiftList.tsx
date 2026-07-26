@@ -27,6 +27,7 @@ function ShiftList({
   onShiftAssigned,
   onShiftDeleted
 }: ShiftListProps) {
+  // Tracks the selected staff member separately for each unassigned shift.
   const [selectedStaff, setSelectedStaff] = useState<Record<number, string>>(
     {}
   );
@@ -34,9 +35,10 @@ function ShiftList({
   const [error, setError] = useState("");
 
   async function handleDelete(shiftId: number) {
+    setError("");
     try {
       await deleteShift(shiftId);
-      onShiftDeleted(shiftId)
+      onShiftDeleted(shiftId);
     } catch (error) {
       setError(
         error instanceof Error
@@ -103,7 +105,7 @@ function ShiftList({
               className="delete-button" 
               aria-label="Delete shift" 
               title="Delete Shift" 
-              onClick={()=>handleDelete(shift.id)}>
+              onClick={() => handleDelete(shift.id)}>
               🗑
               </button>
 
