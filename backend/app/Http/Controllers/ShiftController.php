@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Shift;
 use Illuminate\Http\Request;
+use App\Models\StaffMember;
 
 class ShiftController extends Controller
 {
@@ -57,5 +58,47 @@ class ShiftController extends Controller
         $shift->delete();
 
         return response()->noContent();
+    }
+
+    public function assign(Request $request, string $id)
+    {
+        $shift = Shift::findOrFail($id);
+
+        $validated = $request->validate([
+            'staff_member_id' => [
+                'required',
+                'integer',
+                'exists:staff_members,id',
+            ],
+        ]);
+
+        $staffMember = StaffMember::findOrFail(
+            $validated['staff_member_id']
+        );
+
+        if ($staffMember->role_id !== $shift->role_id) {
+            return response()->json(['message' => 'Staff member role does not match the shift role.'], 422);
+        }
+
+        // Check for overlap
+
+        $hasOverlap = Shift::where(
+                'staff_member_id',
+                $staffMember->id
+            )
+            ->where('shift_date', $shift->shift_date)
+            ->where('id', '!=', $shift->id)
+            ->where('start_time', '<', $shift->end_time)
+            ->where('end_time', '>', $shift->start_time)
+            ->exists();
+
+        if ($hasOverlap) {
+            return response()->json(['message' => 'Staff member already has an overlapping shift.'], 422);
+        }
+
+        $shift->staff_member_id = $staffMember->id;
+        $shift->save();
+
+        return $shift->load(['role', 'staffMember']);
     }
 }

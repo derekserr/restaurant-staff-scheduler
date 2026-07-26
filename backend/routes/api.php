@@ -18,4 +18,5 @@ Route::get('/shifts/{id}', [ShiftController::class, 'show']);
 Route::post('/shifts', [ShiftController::class, 'store']);
 Route::patch('/shifts/{id}', [ShiftController::class, 'update']);
 Route::delete('/shifts/{id}', [ShiftController::class, 'destroy']);
+Route::patch('/shifts/{id}/assign', [ShiftController::class, 'assign']);
 
