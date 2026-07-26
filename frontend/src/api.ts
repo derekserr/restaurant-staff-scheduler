@@ -29,6 +29,25 @@ export async function createStaff(payload) {
   return data;
 }
 
+export async function deleteStaff(id: number) {
+  const response = await fetch(
+    `${API_BASE_URL}/staff/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }
+  );
+
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.message ?? "Failed to delete staff.");
+  }
+}
+
 export async function getShifts() {
   const response = await fetch(`${API_BASE_URL}/shifts`);
 
@@ -64,4 +83,23 @@ export async function assignShift(
   }
 
   return data;
+}
+
+export async function deleteShift(id: number) {
+  const response = await fetch(
+    `${API_BASE_URL}/shifts/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }
+  );
+
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.message ?? "Failed to delete shift.");
+  }
 }

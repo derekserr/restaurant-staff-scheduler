@@ -1,23 +1,38 @@
 import type { Shift, StaffMember } from "./types";
 import { useState } from "react";
-import { assignShift } from "../api";
+import { assignShift, deleteShift } from "../api";
 
 type ShiftListProps = {
   shifts: Shift[];
   staff: StaffMember[];
   onShiftAssigned: (updatedShift: Shift) => void;
+  onShiftDeleted: (shiftId: number) => void;
 };
 
 function ShiftList({
   shifts,
   staff,
   onShiftAssigned,
+  onShiftDeleted
 }: ShiftListProps) {
   const [selectedStaff, setSelectedStaff] = useState<Record<number, string>>(
     {}
   );
 
   const [error, setError] = useState("");
+
+  async function handleDelete(shiftId: number) {
+    try {
+      await deleteShift(shiftId);
+      onShiftDeleted(shiftId)
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Could not delete shift."
+      );
+    }
+  }
 
   async function handleAssignShift(shiftId: number) {
     const staffMemberId = selectedStaff[shiftId];
@@ -66,12 +81,20 @@ function ShiftList({
             </p>
             </div>
 
-            <div>
+            <div>  
               <p>{shift.role.name}</p>
               <p>
                 {shift.staff_member?.name ?? "Unassigned"}
               </p>
             </div>
+
+            <button 
+              className="delete-button" 
+              aria-label="Delete shift" 
+              title="Delete Shift" 
+              onClick={()=>handleDelete(shift.id)}>
+              🗑
+              </button>
 
             {!shift.staff_member && (
               <div>

@@ -64,8 +64,18 @@ function App() {
     ]);
   }
 
+  function handleStaffDeleted(staffId: number){
+    setStaff((currentStaff) =>
+    currentStaff.filter((staff) => staff.id !== staffId));
+  }
+
   function handleShiftAssignment(updatedShift: Shift){
     setShifts((currentShifts) => currentShifts.map((shift) => shift.id === updatedShift.id ? updatedShift: shift));
+  }
+
+  function handleShiftDeleted(shiftId: number) {
+    setShifts((current) =>
+    current.filter((shift) => shift.id !== shiftId));
   }
 
   return (
@@ -82,7 +92,7 @@ function App() {
         {error && <p className="error">{error}</p>}
 
         {loading && <p>Loading staff...</p>}
-        <StaffList staff={staff}/>
+        <StaffList staff={staff} onStaffDeleted={handleStaffDeleted}/>
       </section>
 
       <section className="card">
@@ -94,7 +104,7 @@ function App() {
         />
       </section>
 
-      <ShiftList shifts={shifts} staff={staff} onShiftAssigned={handleShiftAssignment}/>
+      <ShiftList shifts={shifts} staff={staff} onShiftAssigned={handleShiftAssignment} onShiftDeleted={handleShiftDeleted}/>
     </main>
   );
 }
