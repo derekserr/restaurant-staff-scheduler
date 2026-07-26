@@ -1,26 +1,12 @@
 import { useState } from "react";
 import { createStaff } from "../api";
+import roles from "./roles";
 
-type StaffMember = {
-  id: number;
-  name: string;
-  phone_number: string;
-  role_id: number;
-  role?: {
-    id: number;
-    name: string;
-  };
-};
+import type { StaffMember } from "./types"
 
 type StaffFormProps = {
   onStaffCreated: (staffMember: StaffMember) => void;
 };
-
-const roles = [
-  { id: 1, name: "Server" },
-  { id: 2, name: "Cook" },
-  { id: 3, name: "Manager" },
-];
 
 function StaffForm({ onStaffCreated }: StaffFormProps) {
   const [form, setForm] = useState({

@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
-import { getStaff } from "./api";
+import roles from "./components/roles";
+import { getStaff, getShifts } from "./api";
 import StaffForm from "./components/StaffForm";
+import StaffList from "./components/StaffList";
+import ShiftForm from "./components/ShiftForm";
+import ShiftList from "./components/ShiftList";
+
+import type { Shift, StaffMember } from "./components/types"
 import "./App.css";
 
-type StaffMember = {
-  id: number;
-  name: string;
-  phone_number: string;
-  role_id: number;
-  role?: {
-    id: number;
-    name: string;
-  };
-};
 
 function App() {
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [shifts, setShifts] = useState<Shift[]>([]);
 
   async function loadStaff() {
     try {
@@ -37,8 +34,27 @@ function App() {
     }
   }
 
+    async function loadShifts() {
+    try {
+      setLoading(true);
+      setError("");
+
+      const data = await getShifts();
+      setShifts(data);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to load staff."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     loadStaff();
+    loadShifts();
   }, []);
 
   function handleStaffCreated(newStaffMember: StaffMember) {
@@ -62,26 +78,19 @@ function App() {
         {error && <p className="error">{error}</p>}
 
         {loading && <p>Loading staff...</p>}
-
-        {!loading && staff.length === 0 && (
-          <p>No staff members found.</p>
-        )}
-
-        <div className="staff-list">
-          {staff.map((member) => (
-            <article key={member.id} className="staff-item">
-              <div>
-                <h3>{member.name}</h3>
-                <p>{member.phone_number}</p>
-              </div>
-
-              <span>
-                {member.role?.name ?? "Unknown role"}
-              </span>
-            </article>
-          ))}
-        </div>
+        <StaffList staff={staff}/>
       </section>
+
+      <section className="card">
+        <ShiftForm
+          roles={roles}
+          onShiftCreated={(newShift) =>
+            setShifts((current) => [...current, newShift])
+          }
+        />
+      </section>
+
+      <ShiftList shifts={shifts}/>
     </main>
   );
 }

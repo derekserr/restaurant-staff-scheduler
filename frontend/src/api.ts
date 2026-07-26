@@ -28,3 +28,13 @@ export async function createStaff(payload) {
 
   return data;
 }
+
+export async function getShifts() {
+  const response = await fetch(`${API_BASE_URL}/shifts`);
+
+  if (!response.ok) {
+    throw new Error("Failed to load shifts.");
+  }
+
+  return response.json();
+}
