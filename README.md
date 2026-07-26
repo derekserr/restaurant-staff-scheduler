@@ -1,5 +1,9 @@
 # Restaurant Staff Scheduling System
 
+## Browser Compatibility
+
+This application was developed and tested using the latest version of Google Chrome. Other modern browsers may work, but Chrome is the recommended browser for evaluating the project.
+
 A full-stack restaurant staff scheduling application built with Laravel, React, and PostgreSQL.
 
 ## Features
