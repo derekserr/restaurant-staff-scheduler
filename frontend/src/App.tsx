@@ -45,7 +45,7 @@ function App() {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to load staff."
+          : "Failed to load shifts."
       );
     } finally {
       setLoading(false);
@@ -62,6 +62,10 @@ function App() {
       ...currentStaff,
       newStaffMember,
     ]);
+  }
+
+  function handleShiftAssignment(updatedShift: Shift){
+    setShifts((currentShifts) => currentShifts.map((shift) => shift.id === updatedShift.id ? updatedShift: shift));
   }
 
   return (
@@ -90,7 +94,7 @@ function App() {
         />
       </section>
 
-      <ShiftList shifts={shifts}/>
+      <ShiftList shifts={shifts} staff={staff} onShiftAssigned={handleShiftAssignment}/>
     </main>
   );
 }

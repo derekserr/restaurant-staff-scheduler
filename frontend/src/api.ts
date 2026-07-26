@@ -38,3 +38,30 @@ export async function getShifts() {
 
   return response.json();
 }
+
+export async function assignShift(
+  id: number,
+  staffMemberId: number
+) {
+  const response = await fetch(
+    `${API_BASE_URL}/shifts/${id}/assign`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        staff_member_id: staffMemberId,
+      }),
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message ?? "Failed to assign shift.");
+  }
+
+  return data;
+}
