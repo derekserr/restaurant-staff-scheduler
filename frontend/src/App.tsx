@@ -67,6 +67,7 @@ function App() {
   function handleStaffDeleted(staffId: number){
     setStaff((currentStaff) =>
     currentStaff.filter((staff) => staff.id !== staffId));
+    loadShifts();
   }
 
   function handleShiftAssignment(updatedShift: Shift){

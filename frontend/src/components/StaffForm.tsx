@@ -71,10 +71,13 @@ function StaffForm({ onStaffCreated }: StaffFormProps) {
         <label>
           Phone Number
           <input
-            type="text"
+            type="tel"
             name="phone_number"
             value={form.phone_number}
             onChange={handleChange}
+            placeholder="123-456-7890"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            title="Enter a phone number in the format 123-456-7890"
             required
           />
         </label>

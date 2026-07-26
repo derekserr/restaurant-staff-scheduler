@@ -101,10 +101,25 @@ button:disabled {
   opacity: 0.6;
 }
 
-.staff-list,
-.shift-list {
+.staff-form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.staff-form label {
+  width: 100%;
+}
+
+.staff-form button {
+  white-space: nowrap;
+}
+
+.staff-list,
+.staff-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 320px));
   gap: 1rem;
 }
 
@@ -119,7 +134,7 @@ button:disabled {
 
 .staff-item h3,
 .shift-item h3 {
-  margin-top: 0;
+  margin-top: 0; 
   margin-bottom: 0.5rem;
 }
 
@@ -134,7 +149,7 @@ button:disabled {
 }
 
 .assign-button {
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
   width: 100%;
 }
 
@@ -165,6 +180,12 @@ button:disabled {
   color: white;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 1;
+  cursor: pointer;
+}
 .error {
   padding: 0.75rem;
   border-radius: 8px;

@@ -125,12 +125,11 @@ function ShiftForm({ roles, onShiftCreated }: ShiftFormProps) {
           </select>
         </label>
 
-        {error && <p>{error}</p>}
-
         <button type="submit" disabled={submitting}>
           {submitting ? "Creating..." : "Create Shift"}
         </button>
       </form>
+      {error && <p className="error">{error}</p>}
     </section>
   );
 }

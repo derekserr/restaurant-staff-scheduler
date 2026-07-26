@@ -9,6 +9,18 @@ type ShiftListProps = {
   onShiftDeleted: (shiftId: number) => void;
 };
 
+
+function formatTime(time: string) {
+  const [hours, minutes] = time.split(":");
+
+  return new Date(0, 0, 0, Number(hours), Number(minutes))
+    .toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+}
+
 function ShiftList({
   shifts,
   staff,
@@ -75,10 +87,9 @@ function ShiftList({
           <article key={shift.id} className="shift-item">
             <div>
               <h3>{shift.shift_date}</h3>
-            <p>
-                {shift.start_time.slice(0, 5)} -{" "}
-                {shift.end_time.slice(0, 5)}             
-            </p>
+              <p>
+                {formatTime(shift.start_time)} - {formatTime(shift.end_time)}
+              </p>
             </div>
 
             <div>  
@@ -125,6 +136,7 @@ function ShiftList({
 
                 <button
                   type="button"
+                  className="assign-button"
                   onClick={() =>
                     handleAssignShift(shift.id)
                   }
