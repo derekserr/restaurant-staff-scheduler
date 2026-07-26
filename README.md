@@ -50,30 +50,50 @@ docker-compose.yml
 
 ## Getting Started
 
-### Prerequisites
+## Prerequisites
 
 - Docker Desktop
+- Node.js (v18+ recommended)
+- npm
 
-### Run with Docker
+## Running the Application
+
+### 1. Start the backend and database
 
 ```bash
 docker compose up --build
 ```
 
-Once the containers are running:
+The backend container automatically:
 
-Frontend
+- Creates the Laravel `.env` file (if needed)
+- Generates the application key
+- Runs all database migrations
+- Seeds the default roles
 
-```
-http://localhost:5173
-```
-
-Backend
+The backend API will be available at:
 
 ```
 http://localhost:8000
 ```
 
+### 2. Start the frontend
+
+Open a second terminal:
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+The frontend will be available at:
+
+```
+http://localhost:5173
+```
 ---
 
 ## Local Development
